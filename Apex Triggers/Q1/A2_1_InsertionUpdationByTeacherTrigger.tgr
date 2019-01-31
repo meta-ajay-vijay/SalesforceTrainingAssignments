@@ -1,0 +1,3 @@
+trigger A2_1_InsertionUpdationByTeacherTrigger on Contact (before insert, before update) {
+    fflib_SObjectDomain.triggerHandler(A2_1_InsertionUpdationByTeacherDomain.class);
+}

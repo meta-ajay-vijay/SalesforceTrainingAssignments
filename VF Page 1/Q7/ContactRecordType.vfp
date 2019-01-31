@@ -1,0 +1,18 @@
+<apex:page standardController="Contact" sidebar="true" showHeader="true">
+    <style type="text/css">
+        div.recordTypeStyle { 
+        width: 100%;    
+        text-align: center;
+        background-color: #000;
+        } 
+    </style>
+    <apex:pageBlock >
+        <div class = "recordTypeStyle">
+            <apex:sectionHeader printUrl="apex/ContactRecordType?id={! Contact.Id}" title="{!Contact.RecordType.Name}" rendered="{!NOT(ISBLANK(Contact.RecordTypeId))}" />
+        </div>
+        <apex:pageBlockSection >
+            <apex:detail relatedList="false" title="false"/>	
+        </apex:pageBlockSection>
+    </apex:pageBlock>>
+    
+</apex:page>

@@ -1,0 +1,45 @@
+<apex:page standardController="Account" recordSetVar="accounts" extensions="AccountCustomController">
+    
+    <apex:pageBlock id="parentBlock">
+        <apex:form >
+            <apex:pageBlock title="Filters"  id="fm">
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >Billing Country : <apex:inputText value="{! billingCountry}"/></apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >Billing State : <apex:inputText value="{! billingState}"/></apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >Billing City : <apex:inputText value="{! billingCity}"/></apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                <apex:commandButton action="{!searchAccounts}" value="Search" reRender="parentBlock" />
+            </apex:pageBlock>
+        </apex:form>
+        
+        <apex:form >
+            <apex:pageBlock title="Accounts List" rendered="{!showResult}" id="pb">
+                <apex:pageBlockTable id="accounts_list" value="{!accountList}" var="account">
+                    <apex:column >
+                        <apex:outputLink value="{! URLFOR($Action.Account.Edit, account.Id) }">
+                            Edit
+                        </apex:outputLink>
+                        &nbsp;
+                        <apex:outputLink value="{! URLFOR($Action.Account.Delete, account.Id) }">
+                            Del
+                        </apex:outputLink>
+                    </apex:column>
+                    <apex:column value="{!account.AccountNumber}"/>
+                    <apex:column value="{!account.Name}"/>
+                    <apex:column value="{!account.AnnualRevenue}"/>
+                    <apex:column value="{!account.BillingCountry}"/>
+                    <apex:column value="{!account.BillingState}"/>
+                    <apex:column value="{!account.BillingCity}"/>
+                </apex:pageBlockTable>
+                <apex:pageBlockButtons location="bottom">
+                    <apex:commandButton value="First" action="{!firstPage}" disabled="{!!setController.hasPrevious}"/>
+                    <apex:commandButton value="Previous" action="{!previousPage}" disabled="{!!setController.hasPrevious}"/>
+                    <apex:commandButton value="Next" action="{!nextPage}" disabled="{!!setController.hasNext}"/>
+                    <apex:commandButton value="Last" action="{!lastPage}" disabled="{!!setController.hasNext}"/>
+                </apex:pageBlockButtons>
+            </apex:pageBlock>
+        </apex:form>
+        
+        
+    </apex:pageBlock>
+</apex:page>

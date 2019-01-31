@@ -1,0 +1,96 @@
+<apex:page standardController="PurchaseOrderLineItems__c" recordSetVar="productsInCart2" extensions="ShoppingCartController">
+    <apex:pageBlock id="shopping_cart">
+        <apex:form >
+            <apex:pageBlock id="products_list" title="Products Available" rendered="{!showProducts}">
+                <apex:pageBlockTable value="{! productsAvailable}" var="pId" columns="5">
+                    <apex:column value="{!productsAvailable[pId].Product_Name__c}"/>
+                    <apex:column value="{!productsAvailable[pId].Price__c}"/>
+                    <apex:column value="{!productsAvailable[pId].Quantity__c}"/>
+                    <apex:column value="{!productsAvailable[pId].Quantity_Unit_Of_Measure__c}"/>
+                    <apex:column >
+                        <apex:commandButton value="Add to Cart" action="{! addProductInCart}" reRender="shopping_cart">
+                            <apex:param name="productId" value="{!pId}" />
+                        </apex:commandButton>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:form>
+        
+        
+        <apex:form >
+            <apex:pageblock id="cart_products" title="Cart Items" rendered="{!showCart}">
+                <apex:pageBlockTable value="{! productsInCart2}" var="pCartId" columns="5">
+                    <apex:column headerValue="Product Name" value="{!productsInCart2[pCartId].Product_Name__c}"/>
+                    <apex:column headerValue="Quantity">
+                        <apex:actionRegion >
+                            <apex:outputField value="{!productsInCart2[pCartId].Quantity__c}">
+                                <apex:inlineEditSupport event="ondblClick" showOnEdit="saveButton,cancelButton"
+                                                        hideOnEdit="checkOut,resetCart"/>
+                            </apex:outputField> 
+                        </apex:actionRegion> 
+                    </apex:column>
+                    <apex:column headerValue="Price" value="{!productsInCart2[pCartId].Price__c}"/>
+                    <apex:column headerValue="Total Price">
+                        {!(productsInCart2[pCartId].Quantity__c) * (productsInCart2[pCartId].Price__c)}
+                    </apex:column>
+                    <apex:column >
+                        <apex:commandButton value="remove" action="{! removeFromCart}" reRender="shopping_cart">
+                            <apex:param name="productId" value="{!pCartId}" />
+                        </apex:commandButton>
+                    </apex:column>
+                </apex:pageBlockTable>
+                <apex:pageBlockButtons location="Top">
+                    <apex:commandButton id="checkOut" value="Check Out" action="{!doCheckOut}"/>
+                    <apex:commandButton id="resetCart" value="Reset Cart" action="{!resetCart}" reRender="shopping_cart"/>
+                    <apex:commandButton id="saveButton" value="Save" action="{!updateCartQuantity}" reRender="shopping_cart">
+                        <apex:param name="productId" assignTo="{!pCartId}" value="" />
+                    </apex:commandButton> 
+                </apex:pageBlockButtons>
+            </apex:pageblock>
+        </apex:form>
+        
+        
+        <apex:form >
+            <apex:pageblock id="Order_Details" title="Checkout Page" rendered="{!showOrder}">
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <h3>Hi {!orderDetails.customerName} ({!orderDetails.customerEmail}), Your Order Details are</h3>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                <apex:pageBlockTable value="{! productsInCart2}" var="pCartId" columns="5">
+                    <apex:column headerValue="Product Name" value="{!productsInCart2[pCartId].Product_Name__c}"/>
+                    <apex:column headerValue="Quantity" value="{!productsInCart2[pCartId].Quantity__c}"/>
+                    <apex:column headerValue="Price" value="{!productsInCart2[pCartId].Price__c}"/>
+                    <apex:column headerValue="Total Price">
+                        {!(productsInCart2[pCartId].Quantity__c) * (productsInCart2[pCartId].Price__c)}
+                    </apex:column>
+                    <!--apex:column >
+                        <apex:commandButton value="remove" action="{! removeFromCart}" reRender="shopping_cart">
+                            <apex:param name="productId" value="{!pCartId}" />
+                        </apex:commandButton>
+                    </apex:column-->
+                </apex:pageBlockTable>
+                <apex:pageBlockSection >
+                    <apex:pageBlockSectionItem >
+                        <P>Order Total: {!orderDetails.orderTotal}</P>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+                <apex:pageBlockButtons location="Top">
+                    <apex:commandButton id="place_order" value="Place Order" action="{!placeOrder}"/>
+                    <apex:commandButton id="cancel_order" value="Cancel Order" action="{!cancelOrder}">
+                        <apex:param name="orderId" value="{!orderDetails.orderId}"/>
+                    </apex:commandButton>
+                </apex:pageBlockButtons>
+            </apex:pageblock>
+        </apex:form>
+        
+        <apex:pageBlock title="Order Placed" rendered="{!showOrderPlaced}">
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <h3>Order Placed.</h3><br/>
+                    <h2>Thank you for shopping with us.</h2>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:pageBlock>
+</apex:page>
