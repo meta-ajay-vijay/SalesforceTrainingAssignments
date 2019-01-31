@@ -1,0 +1,2 @@
+<apex:page standardController="Student__c" extensions="NewClassFromStudent" action="{!reDirect}">
+</apex:page>
