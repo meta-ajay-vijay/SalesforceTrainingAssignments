@@ -1,0 +1,44 @@
+<apex:component controller="DataComponentController">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockTable id="opportunityTable" value="{! opportunities}" var="opp">
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:commandLink value="Name" action="{! toggleSort}" reRender="opportunityTable">
+                                <apex:param value="Name" assignTo="{! sortField}"/>
+                                <apex:param value="{! IF(myOrder == 'DESC', 'ASC','DESC')}" assignTo="{! myOrder}"/>
+                            </apex:commandLink>
+                        </apex:facet>
+                        <apex:outputField value="{! opp.Name}"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:commandLink value="Close Date" action="{! toggleSort}" reRender="opportunityTable">
+                                <apex:param value="CloseDate" assignTo="{! sortField}"/>
+                                <apex:param value="{! IF(myOrder == 'DESC', 'ASC','DESC')}" assignTo="{! myOrder}"/>
+                            </apex:commandLink>
+                        </apex:facet>
+                        <apex:outputField value="{! opp.CloseDate}"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:commandLink value="Stage Name" action="{! toggleSort}" reRender="opportunityTable">
+                                <apex:param value="StageName" assignTo="{! sortField}"/>
+                                <apex:param value="{! IF(myOrder == 'DESC', 'ASC','DESC')}" assignTo="{! myOrder}"/>
+                            </apex:commandLink>
+                        </apex:facet>
+                        <apex:outputField value="{! opp.StageName}"/>
+                    </apex:column>
+                </apex:pageBlockTable> 
+                <apex:outputText style="position: relative; left: 45%" value="Page {!pageNumber} of {!totalPages}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons style="position: relative; left: 6%" location="bottom">
+                <apex:commandLink action="{!first}" value=" First Page | "/>
+                <apex:commandLink action="{!previous}" value="Previous Page | "/>
+                <apex:commandLink action="{!next}" value="Next Page | "/>
+                <apex:commandLink action="{!last}" value="Last Page"/>
+            </apex:pageBlockButtons>  
+        </apex:pageBlock>
+    </apex:form>
+</apex:component>
