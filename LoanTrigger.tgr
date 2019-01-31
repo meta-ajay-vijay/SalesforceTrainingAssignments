@@ -1,0 +1,3 @@
+trigger LoanTrigger on Loan__c (before insert) {
+	fflib_SObjectDomain.triggerHandler(LoanDomain.class);
+}
