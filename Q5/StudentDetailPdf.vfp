@@ -1,0 +1,2 @@
+<apex:page controller="StudentInfoController" action="{!attachPDF}">
+</apex:page>

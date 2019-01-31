@@ -1,0 +1,17 @@
+<apex:page controller="ContactListController">
+    <apex:form >
+        <apex:pageBlock title="Contact List" >
+            <apex:pageBlockSection >
+                <apex:selectRadio value="{!contactId}">    
+                    <apex:selectOptions value="{!contactNames}"/> 
+                </apex:selectRadio>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!doSave}" value="Save"/>
+                <apex:commandButton action="{!clear}" rerender="table1" value="Clear"/>
+                <apex:commandButton action="{!cancel}" rerender="table1" value="Cancel"/>
+            </apex:pageBlockButtons>  
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
