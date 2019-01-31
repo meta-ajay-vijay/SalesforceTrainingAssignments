@@ -1,0 +1,3 @@
+trigger NotifyOpportunityTrigger on Opportunity (before update) {
+	fflib_SObjectDomain.triggerHandler(NotifyOpportunityDomain.class);
+}
