@@ -1,0 +1,3 @@
+trigger UpdateContactsCount on Account (after insert, after delete, after update) {
+    fflib_SObjectDomain.triggerHandler(UpdateContactsCountDomain.class);
+}
