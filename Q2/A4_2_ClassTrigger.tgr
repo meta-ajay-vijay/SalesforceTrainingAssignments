@@ -1,0 +1,3 @@
+trigger A4_2_ClassTrigger on Class__c (before delete) {
+    fflib_SObjectDomain.triggerHandler(A4_2_ClassDomain.class);
+}
