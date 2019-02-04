@@ -1,0 +1,96 @@
+Approval Process API Doc
+
+
+- What is approval Process?
+	- An approval process automates how records are approved in Salesforce. An approval process specifies each step of approval, 
+	  including who to request approval from and what to do at each point of the process.
+
+	  ********Note********
+- To use approval processes on Salesforce Knowledge articles with the Metadata API, the article type must be deployed.
+- Supported action types are: Knowledge Action, Email Alert, Field Update, and Outbound Message.
+- Send actions and approval processes for email drafts aren’t supported in the Metadata API.	  
+	  ********Note********
+
+- File Suffix and Directory Location:
+	- ApprovalProcess components have the suffix .approvalProcess and are stored in the approvalProcesses folder.
+	- ApprovalProcess components are available in API version 28.0 and later.
+	
+- Fields: https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_approvalprocess.htm 
+	
+- ApprovalSubmitter:
+	- Represents a user or set of users who can submit records for approval.
+		- Fields: 
+			1.) Name = "submitter", Field Type = "string", 
+				Description = "Identifies a specific user or set of users who can submit records for approval.
+								field is required, except when the submitter is the owner, creator or allInternalUsers."
+			2.) Name = "type", Field Type = "ProcessSubmitterType ", Description = "Required. Type of user or set of users who can submit records for approval."
+			
+- ApprovalPageField:
+	- Represents the selection of fields to display on the approval page, where an approver can view the approval request details and approve or reject the record.
+		- Fields:
+			1.) Name = "field", Field Type = "string[] ", 
+				Description = "An array of fields that are displayed on the page for the approver to approve or reject the record."
+			
+- ApprovalStep:
+	- Represents a step in the approval process.
+	- Each step determines which records can advance to that step, who to assign approval requests to, 
+	  and whether to let each approver’s delegate respond to the requests. 
+	- The order of the ApprovalStep entries in the approval process definition determines the order in which the approval steps are executed.
+	- After an approval process is activated, you can’t add, delete, or change the order of the steps or change its reject or skip behavior, 
+	  even if the process is inactive.
+	- Each approval process supports up to 30 steps.
+	
+- ApprovalAction:
+	- Represents the actions that occur as a result of an approval process.
+		- Fields:
+			1.) Name = "action", Field Type = "WorkflowActionReference[] ", Description = "An array of workflow actions to execute."
+			
+- ApprovalStepApprover:
+	- Represents the assigned approvers for an approval step. Each step supports up to 25 approvers.
+		- Fields:
+			1.) Name = "approver", Field Type = "Approver[]", Description = "An array of assigned approvers for this step of the approval process."
+			2.) Name = "whenMultipleApprovers", Field Type = "RoutingType(enumeration of type string)", 
+				Description = "pecifies how to handle approval or rejection when multiple approvers are assigned to the step."
+			
+- Approver:
+	- Represents an assigned approver for an approval step.
+		- Fields:
+			1.) Name = "name", Field Type = "string", Description = "Identifies an assigned approver."
+			2.) Name = "type", Field Type = "NextOwnerType(enumeration of type string)", 
+				Description = "Combined with the specified name, this identifies an assigned approver.
+								Valid values are: adhoc, user, userHierarchyField, relatedUserField, queue"
+																							
+- ApprovalEntryCriteria:
+	- Represents the criteria that records must meet to enter the approval process or an approval step. Specify either filter criteria or a formula, but not both.
+		- Fields:
+			1.) Name = "booleanFilter", Field Type = "string", 
+				Description = "Filter logic for criteriaItems. Exclude this field if you enter a formula."
+			2.) Name = "criteriaItems", Field Type = "FilterItem[]", 
+				Description = "Filter criteria that a record must meet to enter the approval process or approval step."
+			3.) Name = "formula", Field Type = "string", 
+				Description = "Formula that must evaluate to true for a record to enter the approval process or approval step."
+			
+- ApprovalStepRejectBehavior:
+	- Represents what happens if the approver rejects the request during this approval step, unless it’s the first step in the approval process. 
+	- For the first step in the approval process, the reject behavior is determined by the approval process’s final rejection actions.
+		- Fields:
+			1.) Name = "type", Field Type = "StepRejectBehaviorType (enumeration of type string)", 
+				Description = "Not allowed in the first step of the approval process. Valid values are: RejectRequest, BackToPrevious"
+				
+- NextAutomatedApprover:
+	- Represents the user hierarchy field to use as the next automated approver for the approval process. 
+	- If defined, the user specified in the hierarchy field can be automatically assigned as the approver in one or more approval steps.
+		- Fields:
+			1.) Name = "useApproverFieldOfRecordOwner", Field Type = "boolean", 
+				Description = "Required. Whether the first executed approval step should use the specified userHierarchyField in the record owner’s user record—instead of the 
+								submitter’s user record—as the approver."
+			2.) Name = "userHierarchyField", Field Type = "string", 
+				Description = "Required. Standard or custom user hierarchy field whose value specifies which user to assign as the approver."
+		
+
+		
+
+		
+	
+	
+	
